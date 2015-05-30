@@ -1,4 +1,11 @@
 Nine
 ====
 
-** TODO: Add description **
+memo
+
+```
+(Sup)-----(WorkerSup)---(N Workers)
+       |--(Queue)
+       +--(HTTPInterface)
+```
+
