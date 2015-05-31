@@ -4,7 +4,8 @@ Nine
 memo
 
 ```
-(Sup)-----(WorkerSup)---(N Workers)
+(Sup)-----(Dispatcher)
+       |--(Manager)
        |--(Queue)
        +--(HTTPInterface)
 ```
