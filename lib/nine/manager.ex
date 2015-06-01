@@ -20,10 +20,25 @@ defmodule Nine.Manager do
     {:ok, state}
   end
 
-  def handle_info(:poll, state) do
-    IO.puts "poll"
+  def handle_info(:poll, s) do
+    if Nine.Dispatcher.count_workers < s.max_workers do
+      dequeue |> dispatch
+    end
 
-    Process.send_after self, :poll, state.interval
-    {:noreply, state}
+    Process.send_after self, :poll, s.interval
+    {:noreply, s}
+  end
+
+  defp dequeue do
+    case Nine.Queue.dequeue do
+      {:ok, task} -> task
+      _ -> nil
+    end
+  end
+
+  defp dispatch(nil), do: nil
+
+  defp dispatch(mfa) when tuple_size(mfa) == 3 do
+    Nine.Dispatcher.spawn(mfa)
   end
 end

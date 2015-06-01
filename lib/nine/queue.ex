@@ -2,17 +2,21 @@ defmodule Nine.Queue do
   use GenServer
 
   def start_link(opts) do
-    GenServer.start_link(__MODULE__, :queue.new, opts)
+    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
-  @spec enqueue(atom, term) :: no_return
-  def enqueue(pid, item) do
-    GenServer.cast(pid, {:enqueue, item})
+  def init(_opts) do
+    {:ok, :queue.new}
   end
 
-  @spec dequeue(atom) :: {:ok, term} | {:error, :empty}
-  def dequeue(pid) do
-    GenServer.call(pid, :dequeue)
+  @spec enqueue(term) :: no_return
+  def enqueue(item) do
+    GenServer.cast(__MODULE__, {:enqueue, item})
+  end
+
+  @spec dequeue :: {:ok, term} | {:error, :empty}
+  def dequeue do
+    GenServer.call(__MODULE__, :dequeue)
   end
 
   def handle_cast({:enqueue, item}, q) do

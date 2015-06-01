@@ -13,6 +13,7 @@ defmodule Nine do
 
     children = [
       worker(Nine.Manager, [opts_for_manager]),
+      worker(Nine.Dispatcher, [[]]),
       worker(Nine.Queue, [opts_for_queue])
     ]
 
@@ -25,5 +26,6 @@ defmodule Nine do
   end
 
   defp opts_for_queue do
+    []
   end
 end
