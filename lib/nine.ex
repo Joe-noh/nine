@@ -12,11 +12,18 @@ defmodule Nine do
     import Supervisor.Spec, warn: false
 
     children = [
-      supervisor(Nine.WorkerSup, [], name: Nine.WorkerSup),
-      worker(Nine.Queue, [[name: Nine.Queue]])
+      worker(Nine.Manager, [opts_for_manager]),
+      worker(Nine.Queue, [opts_for_queue])
     ]
 
     opts = [strategy: :one_for_one, name: Nine.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp opts_for_manager do
+    [max_workers: 5, interval: 2000]
+  end
+
+  defp opts_for_queue do
   end
 end
