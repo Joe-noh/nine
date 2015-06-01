@@ -22,7 +22,10 @@ defmodule Nine do
   end
 
   defp opts_for_manager do
-    [max_workers: 5, interval: 2000]
+    [
+      max_workers: 5,
+      interval: (if Mix.env == :test, do: 50, else: 2000)
+    ]
   end
 
   defp opts_for_queue do
