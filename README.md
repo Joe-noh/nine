@@ -1,4 +1,12 @@
 Nine
 ====
 
-** TODO: Add description **
+memo
+
+```
+(Sup)-----(Dispatcher)
+       |--(Manager)
+       |--(Queue)
+       +--(HTTPInterface)
+```
+
